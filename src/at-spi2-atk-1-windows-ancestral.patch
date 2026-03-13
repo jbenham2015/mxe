@@ -1,0 +1,18 @@
+--- a/atk-adaptor/bridge.c
++++ b/atk-adaptor/bridge.c
+@@ -646,6 +646,7 @@
+   socket_class->embed = socket_embed_hook;
+ }
+ 
++#ifndef _WIN32
+ static guint
+ get_ancestral_uid (guint pid)
+ {
+@@ -678,6 +679,7 @@
+     return 0;
+   return get_ancestral_uid (ppid);
+ }
++#endif
+ 
+ static dbus_bool_t
+ user_check (DBusConnection *bus, unsigned long uid, void *data)

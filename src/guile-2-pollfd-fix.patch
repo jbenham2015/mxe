@@ -1,0 +1,16 @@
+diff -ur a/lib/poll.c b/lib/poll.c
+--- a/lib/poll.c
++++ b/lib/poll.c
+@@ -23,6 +23,13 @@
+ 
+ #include <config.h>
+ 
++/* Avoid namespace collision on Windows */
++#if defined _WIN32 && !defined __CYGWIN__
++# include <winsock2.h>
++# define pollfd pollfd_gnulib
++# define poll poll_gnulib
++#endif
++
+ /* Specification.  */
+ #include <poll.h>

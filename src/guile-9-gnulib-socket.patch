@@ -1,0 +1,14 @@
+--- a/lib/sys_socket.in.h
++++ b/lib/sys_socket.in.h
+@@ -44,6 +44,11 @@
+ 
+ #@INCLUDE_NEXT@ @NEXT_SYS_SOCKET_H@
+ 
++#if defined _WIN32 && !defined __CYGWIN__
++# include <winsock2.h>
++# include <ws2tcpip.h>
++#endif
++
+ /* The definitions of _GL_FUNCDECL_RPL etc. are copied here.  */
+ 
+ /* The definition of _GL_ARG_NONNULL is copied here.  */

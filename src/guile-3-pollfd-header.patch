@@ -1,0 +1,16 @@
+--- a/lib/poll.in.h
++++ b/lib/poll.in.h
+@@ -20,6 +20,13 @@
+ #ifndef _@GUARD_PREFIX@_POLL_H
+ #define _@GUARD_PREFIX@_POLL_H
+ 
++/* Avoid namespace collision on Windows */
++#if defined _WIN32 && !defined __CYGWIN__
++# include <winsock2.h>
++# define pollfd pollfd_gnulib
++# define poll poll_gnulib
++#endif
++
+ /* The include_next requires a split double-inclusion guard.  */
+ #if @HAVE_POLL_H@
+ # @INCLUDE_NEXT@ @NEXT_POLL_H@

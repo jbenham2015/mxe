@@ -18,15 +18,17 @@ define $(PKG)_UPDATE
     head -1
 endef
 
+
+
 define $(PKG)_BUILD
     cd '$(1)' && ./configure \
         $(MXE_CONFIGURE_OPTS) \
-        --disable-pixbuf-loader \
+        --enable-pixbuf-loader \
         --disable-gtk-doc \
         --enable-introspection=no \
-        CFLAGS='-Wno-incompatible-pointer-types'
+        CFLAGS='-Wno-incompatible-pointer-types' \
+        GDK_PIXBUF_QUERYLOADERS='$(PREFIX)/$(TARGET)/bin/gdk-pixbuf-query-loaders.exe'
     $(MAKE) -C '$(1)' -j '$(JOBS)' install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS=
-
     '$(TARGET)-g++' \
         -mwindows -W -Wall -Werror -Wno-error=deprecated-declarations \
         -pedantic \

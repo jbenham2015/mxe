@@ -7,7 +7,7 @@ $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 2.0.7
 $(PKG)_CHECKSUM := b68876d24c7fb34575ffa389bcfe8e61a24f1cf1da8ec6c3b2053efde98d0320
 $(PKG)_GH_CONF  := FluidSynth/fluidsynth/tags,v
-$(PKG)_DEPS     := cc dbus glib jack libsndfile mman-win32 portaudio readline
+$(PKG)_DEPS     := cc dbus glib libsndfile mman-win32 portaudio readline
 
 define $(PKG)_BUILD
     cd '$(BUILD_DIR)' && '$(TARGET)-cmake' '$(SOURCE_DIR)' \

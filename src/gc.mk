@@ -18,4 +18,8 @@ define $(PKG)_BUILD
         --enable-cplusplus
     $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)'
     $(MAKE) -C '$(BUILD_DIR)' -j 1 install
+    # gc.h unconditionally includes gc_pthread_redirects.h in 8.x but the
+    # win32-threads build doesn't install it -- copy it manually
+    cp '$(SOURCE_DIR)/include/gc_pthread_redirects.h' \
+       '$(PREFIX)/$(TARGET)/include/gc/'
 endef

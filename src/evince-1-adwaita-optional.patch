@@ -1,0 +1,5 @@
+--- a/meson.build
++++ b/meson.build
+@@ -193 +193 @@
+-  adwaita_icon_theme_dep = dependency('adwaita-icon-theme', version: '>= 2.17.1')
++  adwaita_icon_theme_dep = dependency('adwaita-icon-theme', version: '>= 2.17.1', required: false)

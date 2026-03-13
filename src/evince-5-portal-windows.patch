@@ -1,0 +1,17 @@
+--- a/libview/ev-print-operation.c
++++ b/libview/ev-print-operation.c
+@@ -2899,11 +2899,12 @@ ev_print_operation_get_gtype_for_document (EvDocument *document)
+                 type = EV_TYPE_PRINT_OPERATION_PRINT;
+         } else if (EV_IS_FILE_EXPORTER (document)) {
++#ifdef PORTAL_ENABLED
+                 if (ev_should_use_portal ()) {
+-#ifdef PORTAL_ENABLED
+                         type = EV_TYPE_PRINT_OPERATION_EXPORT_PORTAL;
+-#endif
+-                } else {
++                } else
++#endif
++                {
+ #if GTKUNIXPRINT_ENABLED
+                         type = EV_TYPE_PRINT_OPERATION_EXPORT_UNIX;
+ #endif

@@ -32,11 +32,12 @@ define $(PKG)_BUILD
         -Dbuiltin_immodules=yes \
         -Dc_link_args='-lstdc++' \
         -Dintrospection=false \
+        -Dwin32_backend=true \
+        -Dx11_backend=true \
         '$(BUILD_DIR)' '$(SOURCE_DIR)'
     '$(MXE_NINJA)' -C '$(BUILD_DIR)' -j '$(JOBS)'
     DESTDIR="/" \
         '$(MXE_NINJA)' -C '$(BUILD_DIR)' -j '$(JOBS)' install
-
     # Just compile our MXE testfile
     '$(TARGET)-g++' \
         -W -Wall -ansi \

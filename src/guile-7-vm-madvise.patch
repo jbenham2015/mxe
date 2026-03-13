@@ -1,0 +1,11 @@
+--- a/libguile/vm.c
++++ b/libguile/vm.c
+@@ -884,7 +884,7 @@
+ static void
+ return_unused_stack_to_os (struct scm_vm *vp)
+ {
+-#if HAVE_SYS_MMAN_H
++#if HAVE_SYS_MMAN_H && !defined(__MINGW32__)
+   scm_t_uintptr lo = (scm_t_uintptr) vp->stack_bottom;
+   scm_t_uintptr hi = (scm_t_uintptr) vp->sp;
+   /* The second condition is needed to protect against wrap-around.  */

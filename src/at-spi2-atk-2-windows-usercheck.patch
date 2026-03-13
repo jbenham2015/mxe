@@ -1,0 +1,20 @@
+--- a/atk-adaptor/bridge.c
++++ b/atk-adaptor/bridge.c
+@@ -683,6 +684,9 @@
+ static dbus_bool_t
+ user_check (DBusConnection *bus, unsigned long uid, void *data)
+ {
++#ifdef _WIN32
++  return TRUE;
++#else
+   if (uid == getuid () || uid == geteuid ())
+     return TRUE;
+   if (getuid () == 0)
+@@ -691,6 +695,7 @@
+     return (ancestor == uid || ancestor == 1 || ancestor == 0);
+   }
+   return FALSE;
++#endif
+ }
+ 
+ static void

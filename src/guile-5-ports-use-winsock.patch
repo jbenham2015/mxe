@@ -1,0 +1,15 @@
+--- a/libguile/ports.c
++++ b/libguile/ports.c
+@@ -34,7 +34,12 @@
+ #include <fcntl.h>  /* for chsize on mingw */
+ #include <assert.h>
+ #include <iconv.h>
++#ifdef __MINGW32__
++#include <winsock2.h>
++#define poll WSAPoll
++#else
+ #include <poll.h>
++#endif
+ #include <uniconv.h>
+ #include <unistr.h>
+ #include <striconveh.h>

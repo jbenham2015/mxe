@@ -1,0 +1,14 @@
+--- a/backend/pdf/ev-poppler.c
++++ b/backend/pdf/ev-poppler.c
+@@ -67,9 +67,11 @@
+ 	PopplerPSFile *ps_file;
+ } PdfPrintContext;
+ 
++#ifndef G_OS_WIN32
+ #if POPPLER_CHECK_VERSION (21, 12, 0)
+ #define HAVE_POPPLER_LOAD_FD
+ #endif
++#endif
+ 
+ typedef struct {
+ 	EvFileExporterFormat format;

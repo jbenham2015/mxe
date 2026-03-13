@@ -1,0 +1,14 @@
+--- a/libguile/vm.c
++++ b/libguile/vm.c
+@@ -1537,7 +1537,11 @@
+                             (scm_t_extension_init_func)scm_init_vm_builtins,
+                             NULL);
+ 
++#ifdef __MINGW32__
++  page_size = 4096;
++#else
+   page_size = getpagesize ();
++#endif
+   /* page_size should be a power of two.  */
+   if (page_size & (page_size - 1))
+     abort ();

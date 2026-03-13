@@ -43,6 +43,7 @@ define $(PKG)_B2_CROSS_BUILD
         --disable-icu \
         --without-mpi \
         --without-python \
+	--without-stacktrace \
         --prefix='$(PREFIX)/$(TARGET)' \
         --exec-prefix='$(PREFIX)/$(TARGET)/bin' \
         --libdir='$(PREFIX)/$(TARGET)/lib' \

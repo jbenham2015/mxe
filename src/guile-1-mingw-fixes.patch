@@ -1,0 +1,33 @@
+--- a/libguile/socket.c
++++ b/libguile/socket.c
+@@ -36,10 +36,27 @@
+ #include <unistd.h>
+ #include <sys/types.h>
++#ifndef __MINGW32__
+ #include <sys/socket.h>
+ #ifdef HAVE_UNIX_DOMAIN_SOCKETS
+ #include <sys/un.h>
+ #endif
+ #include <netinet/in.h>
+ #include <netinet/tcp.h>
+ #include <netdb.h>
+ #include <arpa/inet.h>
++#else
++#include <winsock2.h>
++#include <ws2tcpip.h>
++#define SD_RECEIVE 0x00
++#define SD_SEND 0x01
++#define SD_BOTH 0x02
++#define SHUT_RD SD_RECEIVE
++#define SHUT_WR SD_SEND
++#define SHUT_RDWR SD_BOTH
++#ifndef EINPROGRESS
++#define EINPROGRESS WSAEINPROGRESS
++#endif
++#ifndef EWOULDBLOCK
++#define EWOULDBLOCK WSAEWOULDBLOCK
++#endif
++#endif
+ #include <gmp.h>
+ 
+ #include "libguile/_scm.h"

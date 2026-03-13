@@ -1,0 +1,31 @@
+--- a/libview/ev-jobs.c
++++ b/libview/ev-jobs.c
+@@ -1509,6 +1509,7 @@ ev_job_scheduler_update_job (EvSchedulerJob *job,
+         return FALSE;
+ }
+ 
++#ifndef G_OS_WIN32
+ static int
+ ev_dupfd (int fd,
+           GError **error)
+@@ -1524,6 +1525,20 @@ ev_dupfd (int fd,
+ 
+         return new_fd;
+ }
++#else
++static int
++ev_dupfd (int fd,
++          GError **error)
++{
++        int new_fd = dup(fd);
++        if (new_fd == -1) {
++                int errsv = errno;
++                g_set_error_literal (error, G_FILE_ERROR, g_file_error_from_errno (errsv),
++                                     g_strerror (errsv));
++        }
++        return new_fd;
++}
++#endif
+ 
+ static void
+ ev_job_load_fd_init (EvJobLoadFd *job)

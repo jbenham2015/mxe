@@ -1,0 +1,23 @@
+This file is part of MXE. See LICENSE.md for licensing information.
+
+Contains ad hoc patches for cross building.
+
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: MXE User <user@mxe>
+Date: Thu, 6 Feb 2025 12:00:00 +0000
+Subject: [PATCH] Fix libxml2 compatibility
+
+Add missing include for xmlParserCtxtPtr definition.
+
+diff --git a/rsvg-private.h b/rsvg-private.h
+index 1111111..2222222 100644
+--- a/rsvg-private.h
++++ b/rsvg-private.h
+@@ -34,6 +34,7 @@
+ #include <libxml/SAX.h>
+ #include <libxml/xmlmemory.h>
+ #include <pango/pango.h>
++#include <libxml/parser.h>
+ #include <glib.h>
+ #include <glib-object.h>
+ #include <math.h>

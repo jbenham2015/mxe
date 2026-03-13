@@ -1,0 +1,15 @@
+--- a/previewer/ev-previewer-window.c
++++ b/previewer/ev-previewer-window.c
+@@ -680,8 +680,12 @@ ev_previewer_window_set_source_fd (EvPreviewerWindow *window,
+ 
+         g_return_val_if_fail (EV_IS_PREVIEWER_WINDOW (window), FALSE);
+         g_return_val_if_fail (error == NULL || *error == NULL, FALSE);
+ 
++#ifndef G_OS_WIN32
+         nfd = fcntl (fd, F_DUPFD_CLOEXEC, 3);
++#else
++        nfd = dup(fd);
++#endif
+         if (nfd == -1) {
+                 int errsv = errno;
+                 g_set_error (error, G_IO_ERROR, g_io_error_from_errno (errsv),

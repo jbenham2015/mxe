@@ -1,16 +1,13 @@
-# This file is part of MXE. See LICENSE.md for licensing information.
-
 PKG             := guile
 $(PKG)_WEBSITE  := https://www.gnu.org/software/guile/
 $(PKG)_DESCR    := GNU Guile
-$(PKG)_IGNORE   := 2%
-$(PKG)_VERSION  := 1.8.8
-$(PKG)_CHECKSUM := c3471fed2e72e5b04ad133bbaaf16369e8360283679bcf19800bc1b381024050
+$(PKG)_IGNORE   :=
+$(PKG)_VERSION  := 2.2.7
+$(PKG)_CHECKSUM := cdf776ea5f29430b1258209630555beea6d2be5481f9da4d64986b077ff37504
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
-$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.gz
+$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/$(PKG)/$($(PKG)_FILE)
-$(PKG)_DEPS     := cc gc gettext gmp libffi libgnurx libiconv libltdl libunistring readline
-
+$(PKG)_DEPS     := cc gc gettext gmp libffi libgnurx libiconv libltdl libunistring readline glib
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://git.savannah.gnu.org/gitweb/?p=guile.git;a=tags' | \
     grep '<a [^>]*class="list subject"' | \
@@ -19,27 +16,42 @@ define $(PKG)_UPDATE
     $(SORT) -Vr | \
     head -1
 endef
-
 define $(PKG)_BUILD
-    # The setting "scm_cv_struct_timespec=no" ensures that Guile
-    # won't try to use the "struct timespec" from <pthreads.h>,
-    # which would fail because we tell Guile not to use Pthreads.
-    cd '$(BUILD_DIR)' && CC_FOR_BUILD=$(BUILD_CC) $(SOURCE_DIR)/configure \
-        $(MXE_CONFIGURE_OPTS) \
-        --without-threads \
-        scm_cv_struct_timespec=no \
-        LIBS='-lunistring -lintl -liconv -ldl' \
-        CFLAGS='-Wno-misleading-indentation -Wno-unused-but-set-variable -Wno-unused-value $($(PKG)_EXTRA_WARNINGS)'
-    $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)' $(MXE_DISABLE_CRUFT) schemelib_DATA=
+    cd '$(SOURCE_DIR)/libguile' && \
+    echo '#ifdef __MINGW32__' >> filesys.h && \
+    echo '#define open64 open' >> filesys.h && \
+    echo '#define lstat64 lstat' >> filesys.h && \
+    echo '#define readdir64 readdir' >> filesys.h && \
+    echo '#endif' >> filesys.h
+    
+    cd '$(BUILD_DIR)' && CC_FOR_BUILD=$(BUILD_CC) \
+    CFLAGS='-O2 -Wno-unused-but-set-variable -Wno-unused-value -fvisibility=default' \
+    CXXFLAGS='-O2' \
+    LDFLAGS='' \
+    LIBS='-lunistring -lintl -liconv -lssp -lws2_32' \
+    ac_cv_func_open64=no \
+    ac_cv_func_lstat64=no \
+    ac_cv_func_readdir64=no \
+    ac_cv_func_mmap=no \
+    scm_cv_struct_timespec=no \
+    gl_cv_func_poll=yes \
+    ac_cv_func_poll=yes \
+    gl_cv_header_sys_socket_h_shut_wr_defined=yes \
+    gl_cv_header_sys_socket_h_socklen_t_typedef=yes \
+    gl_cv_header_sys_select_h_self_contained=yes \
+    ac_cv_header_sys_select_h=no \
+    $(SOURCE_DIR)/configure \
+        --host='$(TARGET)' \
+        --build='$(BUILD)' \
+        --prefix='$(PREFIX)/$(TARGET)' \
+        --disable-shared \
+	--enable-static \
+	--disable-jit \
+        --disable-dependency-tracking \
+        --disable-largefile \
+	--disable-networking \
+	--disable-mmap-api \
+	--disable-posix 
+    $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)' CFLAGS='-O2 -Wno-unused-but-set-variable -Wno-unused-value -fvisibility=default -Dopen64=open -Dlstat64=lstat -Dreaddir64=readdir' $(MXE_DISABLE_CRUFT) schemelib_DATA=
     $(MAKE) -C '$(BUILD_DIR)' -j 1 install $(MXE_DISABLE_CRUFT) schemelib_DATA=
-
-    '$(TARGET)-gcc' \
-        -W -Wall -Werror -ansi -pedantic \
-        '$(TEST_FILE)' -o '$(PREFIX)/$(TARGET)/bin/test-guile.exe' \
-        `'$(TARGET)-pkg-config' guile-$(call SHORT_PKG_VERSION,$(PKG)) --cflags --libs` \
-        -DGUILE_MAJOR_MINOR=\"$(call SHORT_PKG_VERSION,$(PKG))\"
 endef
-
-$(PKG)_BUILD_x86_64-w64-mingw32 =
-
-$(PKG)_BUILD_SHARED =

@@ -1,0 +1,15 @@
+--- a/meson.build
++++ b/meson.build
+@@ -218,7 +218,11 @@ if get_option('gtk_doc')
+   config_h.set10('GTKUNIXPRINT_ENABLED', enable_gtk_unix_print)
+ 
+   if enable_dbus or enable_gtk_unix_print
+-    gio_unix_dep = dependency('gio-unix-2.0', version: glib_req_version)
++    if host_machine.system() != 'windows'
++      gio_unix_dep = dependency('gio-unix-2.0', version: glib_req_version)
++    else
++      gio_unix_dep = dependency('', required: false)
++    endif
+   else
+     gio_unix_dep = dependency('', required: false)
+   endif

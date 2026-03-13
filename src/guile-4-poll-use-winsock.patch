@@ -1,0 +1,15 @@
+--- a/libguile/poll.c
++++ b/libguile/poll.c
+@@ -26,7 +26,13 @@
+ #endif
+ 
++#ifdef __MINGW32__
++#include <winsock2.h>
++typedef ULONG nfds_t;
++#define poll WSAPoll
++#else
+ #include <poll.h>
++#endif
+ 
+ #include "libguile/_scm.h"
+ #include "libguile/bytevectors.h"
