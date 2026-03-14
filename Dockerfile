@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     git \
     gperf \
     intltool \
+    itstool \
     libgdk-pixbuf2.0-dev \
     libltdl-dev \
     libgl-dev \
