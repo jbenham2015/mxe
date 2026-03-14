@@ -47,8 +47,9 @@ RUN apt-get update && apt-get install -y \
 # Clone your MXE fork
 RUN git clone https://github.com/jbenham2015/mxe.git /opt/mxe
 
-# Build all Denemo dependencies (slow - only reruns when Dockerfile changes)
+# Build all Denemo dependencies (slow - only reruns when Dockerfile changes) 
 RUN cd /opt/mxe && make denemo \
-    -j$(nproc) 
+    MXE_TARGETS=x86_64-w64-mingw32.shared \
+    -j$(nproc)
 
 ENV PATH="/opt/mxe/usr/bin:$PATH"
