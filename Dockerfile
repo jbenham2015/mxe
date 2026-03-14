@@ -49,7 +49,6 @@ RUN git clone https://github.com/jbenham2015/mxe.git /opt/mxe
 
 # Build all Denemo dependencies (slow - only reruns when Dockerfile changes)
 RUN cd /opt/mxe && make denemo \
-    -j$(nproc) \
-    2>&1 | tail -100
+    -j$(nproc) 
 
 ENV PATH="/opt/mxe/usr/bin:$PATH"
