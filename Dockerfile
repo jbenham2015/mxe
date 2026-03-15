@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     libgdk-pixbuf2.0-dev \
     libltdl-dev \
     libgl-dev \
+    libgtk-3-bin \
     libpcre2-dev \
     libssl-dev \
     libtool-bin \
