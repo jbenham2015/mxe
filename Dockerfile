@@ -48,9 +48,6 @@ RUN apt-get update && apt-get install -y \
 
 # Clone your MXE fork
 RUN git clone https://github.com/jbenham2015/mxe.git /opt/mxe
-# Debug: verify guile was built
-RUN ls /opt/mxe/usr/x86_64-w64-mingw32.shared/lib/pkgconfig/ | grep guile && \
-    cat /opt/mxe/usr/x86_64-w64-mingw32.shared/lib/pkgconfig/guile-2.2.pc
 # Cache bust - increment when deps change
 ARG CACHE_BUST=2
 # Build all Denemo dependencies (slow - only reruns when Dockerfile changes) 
