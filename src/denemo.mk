@@ -33,6 +33,8 @@ define $(PKG)_BUILD
         --enable-portaudio \
         --disable-rubberband \
         --disable-nls \
+	PKG_CONFIG_PATH='$(PREFIX)/$(TARGET)/lib/pkgconfig' \
+	PKG_CONFIG='$(TARGET)-pkg-config' \
         PORTMIDI_LIBS="-lportmidi -lwinmm" \
 	CPPFLAGS='-I$(PREFIX)/$(TARGET)/include' \
         LDFLAGS='-L$(PREFIX)/$(TARGET)/lib' \
