@@ -52,6 +52,7 @@ RUN git clone https://github.com/jbenham2015/mxe.git /opt/mxe
 # Build all Denemo dependencies (slow - only reruns when Dockerfile changes) 
 RUN cd /opt/mxe && make denemo \
     MXE_TARGETS=x86_64-w64-mingw32.shared \
-    -j$(nproc)
+    -j$(nproc) \
+	|| (cat /opt/mxe/log/denemo_x86_64-w64-mingw32.shared && exit 1)
 
 ENV PATH="/opt/mxe/usr/bin:$PATH"
