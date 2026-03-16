@@ -53,6 +53,11 @@ ARG CACHE_BUST=2
 # Build all Denemo dependencies (slow - only reruns when Dockerfile changes) 
 RUN cd /opt/mxe && make denemo \
     MXE_TARGETS=x86_64-w64-mingw32.shared \
-    -j$(nproc) 
+    -j$(nproc); \
+    STATUS=$?; \
+    if [ $STATUS -ne 0 ]; then \
+        cat /opt/mxe/log/denemo_x86_64-w64-mingw32.shared 2>/dev/null || echo "No log found"; \
+        exit $STATUS; \
+    fi
 
 ENV PATH="/opt/mxe/usr/bin:$PATH"
