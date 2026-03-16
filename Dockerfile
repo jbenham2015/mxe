@@ -58,13 +58,12 @@ RUN cd /opt/mxe && make denemo \
     -j$(nproc); \
     STATUS=$?; \
     if [ $STATUS -ne 0 ]; then \
-        echo "=== Log files ==="; \
-        ls /opt/mxe/log/ 2>/dev/null || echo "No log dir"; \
+        echo "=== Guile log ==="; \
+        cat /opt/mxe/log/guile_x86_64-w64-mingw32.shared 2>/dev/null | tail -50 || echo "No guile log"; \
         echo "=== Denemo log ==="; \
-        cat /opt/mxe/log/denemo_x86_64-w64-mingw32.shared 2>/dev/null || echo "No log found"; \
-        echo "=== Config log ==="; \
-        find /opt/mxe/tmp-denemo* -name config.log 2>/dev/null | head -1 | xargs cat 2>/dev/null | tail -50; \
+        cat /opt/mxe/log/denemo_x86_64-w64-mingw32.shared 2>/dev/null | tail -50 || echo "No denemo log"; \
         exit $STATUS; \
     fi
+
 
 ENV PATH="/opt/mxe/usr/bin:$PATH"
