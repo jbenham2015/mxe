@@ -3,11 +3,11 @@
 PKG             := denemo
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 2.6.51
-$(PKG)_CHECKSUM := f083d006a386acfe338bea874bffc1aaef562d05059cb0c9ea2f2de1386f70f0
+$(PKG)_CHECKSUM := 0edbbcbd126d69c37bc01c7e89ef895efc99934a7dcadc1108184a597b88f9aa
 $(PKG)_SUBDIR   := denemo-$($(PKG)_VERSION)
 $(PKG)_FILE     := denemo-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://denemo.org/~jjbenham/denemo-snapshot/$($(PKG)_FILE)
-$(PKG)_DEPS     := gcc gtk3 gtksourceview aubio portaudio librsvg libgcrypt portmidi libsndfile evince rubberband fluidsynth  
+$(PKG)_DEPS     := gcc gtk3 gtksourceview aubio portaudio librsvg libgcrypt portmidi libsndfile evince rubberband fluidsynth guile
 
 #TODO portmidi rubnerband path
 #TODO make tests for gtksourceview
@@ -43,8 +43,6 @@ define $(PKG)_BUILD
 
     '$(TARGET)-gcc' \
         -W -Wall -ansi -mwindows \
-        '/home/jjbenham/public_html/mxe/src/lilypond-windows.c' -o '$(PREFIX)/$(TARGET)/bin/lilypond-windows.exe' 
-
-
+        '$(TOP_DIR)/src/lilypond-windows.c' -o '$(PREFIX)/$(TARGET)/bin/lilypond-windows.exe'
 endef
 
