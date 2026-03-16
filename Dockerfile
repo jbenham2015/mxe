@@ -59,9 +59,9 @@ RUN cd /opt/mxe && make denemo \
     STATUS=$?; \
     if [ $STATUS -ne 0 ]; then \
         echo "=== Guile log ==="; \
-        cat /opt/mxe/log/guile_x86_64-w64-mingw32.shared 2>/dev/null | tail -50 || echo "No guile log"; \
+        cat /opt/mxe/log/guile_x86_64-w64-mingw32.shared 2>/dev/null | tail -100 || echo "No guile log"; \
         echo "=== Denemo log ==="; \
-        cat /opt/mxe/log/denemo_x86_64-w64-mingw32.shared 2>/dev/null | tail -50 || echo "No denemo log"; \
+        cat /opt/mxe/log/denemo_x86_64-w64-mingw32.shared 2>/dev/null | tail -100 || echo "No denemo log"; \
         exit $STATUS; \
     fi
 
