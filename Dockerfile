@@ -15,6 +15,8 @@ RUN apt-get update && apt-get install -y \
     gettext \
     git \
     gperf \
+    guile-2.2 \
+    guile-2.2-dev \
     intltool \
     itstool \
     libgdk-pixbuf2.0-dev \
