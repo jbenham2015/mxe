@@ -7,7 +7,7 @@ $(PKG)_CHECKSUM := cdf776ea5f29430b1258209630555beea6d2be5481f9da4d64986b077ff37
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/$(PKG)/$($(PKG)_FILE)
-$(PKG)_URL_2    := https://ftpmirror.gnu.org/guile/$($(PKG)_FILE)
+$(PKG)_URL_2    := https://mirrors.kernel.org/gnu/guile/$($(PKG)_FILE)
 $(PKG)_DEPS     := cc gc gettext gmp libffi libgnurx libiconv libltdl libunistring readline glib mman-win32
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://git.savannah.gnu.org/gitweb/?p=guile.git;a=tags' | \
