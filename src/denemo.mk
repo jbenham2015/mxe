@@ -3,7 +3,7 @@
 PKG             := denemo
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 2.6.51
-$(PKG)_CHECKSUM := 0edbbcbd126d69c37bc01c7e89ef895efc99934a7dcadc1108184a597b88f9aa
+$(PKG)_CHECKSUM := 
 $(PKG)_SUBDIR   := denemo-$($(PKG)_VERSION)
 $(PKG)_FILE     := denemo-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://denemo.org/~jjbenham/denemo-snapshot/$($(PKG)_FILE)

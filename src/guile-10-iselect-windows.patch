@@ -1,0 +1,11 @@
+--- a/libguile/iselect.h
++++ b/libguile/iselect.h
+@@ -24,7 +24,9 @@
+ #include "libguile/__scm.h"
+ 
++#ifndef __MINGW32__
+ #include <sys/select.h>
++#endif
+ 
+ #ifdef __cplusplus
+ extern "C" {
