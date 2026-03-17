@@ -8,7 +8,7 @@ $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/$(PKG)/$($(PKG)_FILE)
 $(PKG)_URL_2    := https://ftpmirror.gnu.org/guile/$($(PKG)_FILE)
-$(PKG)_DEPS     := cc gc gettext gmp libffi libgnurx libiconv libltdl libunistring readline glib
+$(PKG)_DEPS     := cc gc gettext gmp libffi libgnurx libiconv libltdl libunistring readline glib mman-win32
 define $(PKG)_UPDATE
     $(WGET) -q -O- 'https://git.savannah.gnu.org/gitweb/?p=guile.git;a=tags' | \
     grep '<a [^>]*class="list subject"' | \
@@ -28,7 +28,7 @@ define $(PKG)_BUILD
     cd '$(BUILD_DIR)' && CC_FOR_BUILD=$(BUILD_CC) \
     CFLAGS='-O2 -Wno-unused-but-set-variable -Wno-unused-value -fvisibility=default' \
     CXXFLAGS='-O2' \
-    LDFLAGS='' \
+    LDFLAGS='-lmman' \
     LIBS='-lunistring -lintl -liconv -lssp -lws2_32' \
     ac_cv_func_open64=no \
     ac_cv_func_lstat64=no \
