@@ -46,7 +46,9 @@ RUN apt-get update && apt-get install -y \
     sqlite3 \
     unzip \
     wget \
+    wine \
     xz-utils \
+    zip \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone your MXE fork
