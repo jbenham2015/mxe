@@ -40,6 +40,7 @@ RUN apt-get update && apt-get install -y \
     python3-pkg-resources \
     python3-setuptools \
     python-is-python3 \
+    rsync \
     ruby \
     sed \
     sqlite3 \
