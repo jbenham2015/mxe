@@ -14,6 +14,8 @@ define $(PKG)_BUILD
     # build and install the library
     cd '$(BUILD_DIR)' && $(SOURCE_DIR)/configure \
         $(MXE_CONFIGURE_OPTS) \
+        --disable-shared \
+        --enable-static \
         --enable-threads=win32 \
         --enable-cplusplus
     $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)'
