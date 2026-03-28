@@ -3,10 +3,10 @@
 PKG             := denemo
 $(PKG)_IGNORE   :=
 $(PKG)_VERSION  := 2.6.51
-$(PKG)_CHECKSUM := 089bb041f65359f1aacec943d9e099955bde834ad40b40063dbfafa42cfc581b
+$(PKG)_CHECKSUM := 6fda5fcc55a5f59761822c48c1087728f4151df1a8bfd4ced68886f5c3bb7898
 $(PKG)_SUBDIR   := denemo-$($(PKG)_VERSION)
 $(PKG)_FILE     := denemo-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL      := https://denemo.org/~jjbenham/denemo-snapshot/$($(PKG)_FILE)
+$(PKG)_URL := https://github.com/jbenham2015/Denemo/archive/refs/heads/master.tar.gz
 $(PKG)_DEPS     := gcc gtk3 gtksourceview aubio portaudio librsvg libgcrypt portmidi libsndfile evince rubberband fluidsynth guile
 
 #TODO portmidi rubnerband path
