@@ -47,12 +47,14 @@ define $(PKG)_BUILD
         --prefix='$(PREFIX)/$(TARGET)' \
         --disable-shared \
 	--enable-static \
+	--enable-guile-tool \
 	--disable-jit \
         --disable-dependency-tracking \
         --disable-largefile \
 	--disable-networking \
 	--disable-mmap-api \
-	--disable-posix 
+	--disable-posix
     $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)' CFLAGS='-O2 -Wno-unused-but-set-variable -Wno-unused-value -fvisibility=default -Dopen64=open -Dlstat64=lstat -Dreaddir64=readdir' $(MXE_DISABLE_CRUFT) schemelib_DATA=
     $(MAKE) -C '$(BUILD_DIR)' -j 1 install $(MXE_DISABLE_CRUFT) schemelib_DATA=
+    cp '$(BUILD_DIR)/libguile/guile.exe' '$(PREFIX)/$(TARGET)/bin/guile.exe'
 endef

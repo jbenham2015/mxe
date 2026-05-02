@@ -1,0 +1,37 @@
+--- a/libguile/loader.c	2026-05-02 02:07:54.333737271 +0000
++++ b/libguile/loader.c	2026-05-02 02:55:52.069513314 +0000
+@@ -184,6 +184,13 @@
+   return alignment;
+ }
+ 
++#ifdef __MINGW32__
++#include <malloc.h>
++#define guile_aligned_malloc(size, align) _aligned_malloc((size), (align))
++#else
++#define guile_aligned_malloc(size, align) NULL
++#endif
++
+ /* This function leaks the memory that it allocates.  */
+ static char*
+ alloc_aligned (size_t len, unsigned alignment)
+@@ -206,13 +213,14 @@
+ #endif
+   else
+     {
+-      if (len + alignment < len)
+-        abort ();
+-
+-      ret = malloc (len + alignment - 1);
++      ret = guile_aligned_malloc (len, alignment);
+       if (!ret)
+-        abort ();
+-      ret = (char *) ALIGN ((scm_t_uintptr) ret, (scm_t_uintptr) alignment);
++        {
++          ret = malloc (len + alignment - 1);
++          if (!ret)
++            abort ();
++          ret = (char *) ALIGN ((scm_t_uintptr) ret, (scm_t_uintptr) alignment);
++        }
+     }
+ 
+   return ret;
