@@ -2,11 +2,11 @@
 # See index.html for further information.
 PKG             := denemo
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.6.51
-$(PKG)_CHECKSUM := 6fda5fcc55a5f59761822c48c1087728f4151df1a8bfd4ced68886f5c3bb7898
+$(PKG)_VERSION  := 2.6.52
+$(PKG)_CHECKSUM := 01701c82fbd6c8a3a3b46480b2ea87c67f03065d78a86b28971595cba3658564
 $(PKG)_SUBDIR   := denemo-$($(PKG)_VERSION)
 $(PKG)_FILE     := denemo-$($(PKG)_VERSION).tar.gz
-$(PKG)_URL := https://github.com/jbenham2015/Denemo/archive/refs/heads/master.tar.gz
+$(PKG)_URL      := https://denemo.org/~jjbenham/denemo-snapshot/$($(PKG)_FILE)
 $(PKG)_DEPS     := gcc gtk3 gtksourceview aubio portaudio librsvg libgcrypt portmidi libsndfile evince rubberband fluidsynth guile
 
 #TODO portmidi rubnerband path
@@ -25,24 +25,29 @@ define $(PKG)_BUILD
     cd '$(1)/' && ./configure \
         $(MXE_CONFIGURE_OPTS) \
         --disable-binreloc \
-        --disable-debug \
-        --enable-guile_2_2 \
+        --enable-debug \
+        --enable-guile_3_0 \
         --enable-portmidi \
         --disable-atril \
         --enable-evince \
         --enable-portaudio \
         --disable-rubberband \
         --disable-nls \
-	PKG_CONFIG_PATH='$(PREFIX)/$(TARGET)/lib/pkgconfig' \
-	PKG_CONFIG='$(TARGET)-pkg-config' \
         PORTMIDI_LIBS="-lportmidi -lwinmm" \
-	CPPFLAGS='-I$(PREFIX)/$(TARGET)/include' \
+        CPPFLAGS='-I$(PREFIX)/$(TARGET)/include -DSCM_STATIC_BUILD' \
         LDFLAGS='-L$(PREFIX)/$(TARGET)/lib' \
-        CFLAGS="-mwindows" 
-    $(MAKE) -C '$(1)/' -j '$(JOBS)' AM_LDFLAGS="-mwindows"  install
+        GUILE_LIBS='$(PREFIX)/$(TARGET)/lib/libguile-3.0.a $(PREFIX)/$(TARGET)/lib/libgc.a -latomic_ops -ldl'
+    #already there i guess cp '$(TOP_DIR)/packaging/denemo.ico' '$(1)/src/'
+    '$(TARGET)-windres' '$(1)/src/denemo.rc' -o '$(1)/src/denemo_icon.o'
+    echo 'denemo_LDADD += denemo_icon.o' >> '$(1)/src/Makefile'
+    rm -rf '$(PREFIX)/$(TARGET)/share/denemo/actions'
+    find '$(1)/actions' -xtype l -delete
+    $(MAKE) -C '$(1)/' -j '$(JOBS)' AM_LDFLAGS="" install
 
     '$(TARGET)-gcc' \
-        -W -Wall -ansi -mwindows \
-        '$(TOP_DIR)/src/lilypond-windows.c' -o '$(PREFIX)/$(TARGET)/bin/lilypond-windows.exe'
+        -W -Wall -ansi \
+        '$(TOP_DIR)/src/lilypond-windows.c' -o '$(PREFIX)/$(TARGET)/bin/lilypond-windows.exe' 
+
+
 endef
 

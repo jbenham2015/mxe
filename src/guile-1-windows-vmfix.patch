@@ -1,0 +1,16 @@
+diff -ruN guile-3.0.10.orig/libguile/vm.c guile-3.0.10/libguile/vm.c
+--- guile-3.0.10.orig/libguile/vm.c	2023-05-07 07:50:11.000000000 +0000
++++ guile-3.0.10/libguile/vm.c	2026-01-18 02:36:05.072484350 +0000
+@@ -648,7 +648,12 @@
+       int ret = 0;
+ 
+       do
++
++#ifdef HAVE_MADVISE
+         ret = madvise ((void *) lo, hi - lo, MADV_DONTNEED);
++#else
++        ret = 0; // No-op on Windows
++#endif
+       while (ret && errno == EAGAIN);
+ 
+       /* If the OS doesn't implement 'madvise' (as is currently the case
