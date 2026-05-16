@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM debian:stable
 
 ENV DEBIAN_FRONTEND=noninteractive
 
