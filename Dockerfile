@@ -2,6 +2,7 @@ FROM debian:stable
 
 ENV DEBIAN_FRONTEND=noninteractive
 
+RUN dpkg --add-architecture i386
 # MXE system dependencies
 RUN apt-get update && apt-get install -y \
     autoconf \
@@ -19,7 +20,7 @@ RUN apt-get update && apt-get install -y \
     guile-3.0-dev \
     intltool \
     itstool \
-    libgdk-pixbuf2.0-dev \
+    libgdk-pixbuf-2.0-dev \
     libltdl-dev \
     libgl-dev \
     libgtk-3-bin \
@@ -49,6 +50,17 @@ RUN apt-get update && apt-get install -y \
     wine \
     xz-utils \
     zip \
+    cmake \
+    meson \
+    ninja-build \
+    pkg-config \
+    yasm \
+    nasm \
+    texinfo \
+    scons \
+    g++-multilib \
+    libc6-dev-i386 \
+    libclang-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone your MXE fork
