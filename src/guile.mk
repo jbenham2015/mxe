@@ -48,6 +48,7 @@ define $(PKG)_BUILD
         --prefix='$(PREFIX)/$(TARGET)' \
         --disable-shared \
         --enable-static \
+	--disable-jit \
 	--disable-mmap-api \
         --disable-dependency-tracking \
 	--disable-posix \
