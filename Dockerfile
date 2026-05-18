@@ -75,3 +75,4 @@ RUN cd /opt/mxe && make guile gtk3 gtksourceview aubio portaudio librsvg libgcry
 
 ENV PATH="/opt/mxe/usr/bin:$PATH"
 
+# cache-bust Mon May 18 09:28:50 PM UTC 2026
