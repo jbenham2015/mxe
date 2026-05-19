@@ -35,6 +35,5 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/jbenham2015/mxe:latest
-          cache-from: type=registry,ref=ghcr.io/jbenham2015/mxe:buildcache
-          cache-to: type=registry,ref=ghcr.io/jbenham2015/mxe:buildcache,mode=max
+          no-cache: true
           outputs: type=image,push=true
