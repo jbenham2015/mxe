@@ -68,6 +68,7 @@ RUN git clone https://github.com/jbenham2015/mxe.git /opt/mxe
 # Cache bust - increment when deps change
 ARG CACHE_BUST=2
 # Build all Denemo dependencies (slow - only reruns when Dockerfile changes) 
+# cache-bust 2026-05-19 - force Guile rebuild with --disable-jit
 RUN cd /opt/mxe && make guile gtk3 gtksourceview aubio portaudio librsvg libgcrypt portmidi libsndfile evince fluidsynth \
     MXE_TARGETS=x86_64-w64-mingw32.shared \
     -j$(nproc)
