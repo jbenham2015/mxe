@@ -68,6 +68,9 @@ ARG CACHE_BUST=3
 # Clone your MXE fork
 RUN git clone https://github.com/jbenham2015/mxe.git /opt/mxe
 # Build all Denemo dependencies (slow - only reruns when Dockerfile changes) 
+RUN mkdir -p /opt/mxe/pkg && \
+    wget -q https://ftp.gnu.org/gnu/guile/guile-3.0.10.tar.xz \
+         -O /opt/mxe/pkg/guile-3.0.10.tar.xz
 # cache-bust 2026-05-19 - force Guile rebuild with --disable-jit
 RUN cd /opt/mxe && make guile gtk3 gtksourceview aubio portaudio librsvg libgcrypt portmidi libsndfile evince fluidsynth \
     MXE_TARGETS=x86_64-w64-mingw32.shared \
